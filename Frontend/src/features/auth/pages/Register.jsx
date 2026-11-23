@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link } from 'react-router'
-import '../auth.form.css'
+import '../auth.form.scss'
 
 const Register = () => {
   const [submitted, setSubmitted] = useState(false)

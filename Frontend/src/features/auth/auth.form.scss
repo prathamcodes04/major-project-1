@@ -65,3 +65,71 @@
     color: #b6a8ff;
   }
 }
+
+.register-page {
+  display: grid;
+  min-height: 100vh;
+  place-items: center;
+  padding: 24px;
+}
+
+.register-card {
+  width: min(100%, 400px);
+  padding: 32px;
+  border: 1px solid #444;
+  border-radius: 12px;
+  background: #202020;
+}
+
+.register-card h1 {
+  margin-bottom: 8px;
+}
+
+.register-description {
+  margin-bottom: 24px;
+  color: #aaa;
+}
+
+.register-form {
+  display: grid;
+  gap: 18px;
+}
+
+.register-form-group {
+  display: grid;
+  gap: 8px;
+}
+
+.register-form-group input {
+  padding: 10px;
+  border: 1px solid #555;
+  border-radius: 6px;
+  background: #161616;
+  color: white;
+}
+
+.register-submit {
+  width: 100%;
+  padding: 11px;
+  border: 0;
+  border-radius: 6px;
+  background: #7357e8;
+  color: white;
+  cursor: pointer;
+}
+
+.register-status {
+  margin-top: -6px;
+  color: #a8e6b0;
+}
+
+.register-footer {
+  margin-top: 20px;
+  color: #aaa;
+  text-align: center;
+}
+
+.register-footer a {
+  color: #b6a8ff;
+}
+
