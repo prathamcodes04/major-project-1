@@ -1,13 +1,28 @@
 import { useState } from 'react'
 import '../auth.form.scss'
 import { Link } from 'react-router'
+import { useAuth } from '../hooks/useAuth'
 
 const Login = () => {
-  const [submitted, setSubmitted] = useState(false)
+  
+  const {loading, handleLogin} = useAuth();
 
-  const handleSubmit = (event) => {
+  // two-way binding
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleSubmit = async(event) => {
     event.preventDefault()
-    setSubmitted(true)
+    handleLogin({email, password})
+
+  }
+
+  if(loading){
+    return (
+      <main>
+        <h1>Loading.......</h1>
+      </main>
+    )
   }
 
   return (
@@ -20,6 +35,7 @@ const Login = () => {
           <div className="auth-form-group">
             <label htmlFor="email">Email</label>
             <input
+              onChange={(e) => {setEmail(e.target.value)}}
               type="email"
               id="email"
               name="email"
@@ -31,6 +47,7 @@ const Login = () => {
           <div className="auth-form-group">
             <label htmlFor="password">Password</label>
             <input
+              onChange={(e) => {setPassword(e.target.value)}}
               type="password"
               id="password"
               name="password"
@@ -43,11 +60,7 @@ const Login = () => {
           <button className="auth-form-submit" type="submit">
             Login
           </button>
-          {submitted && (
-            <p className="auth-form-status" role="status">
-              Test form submitted. Authentication is not connected.
-            </p>
-          )}
+          
 
         </form>
 

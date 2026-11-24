@@ -9,6 +9,7 @@ async function startServer() {
             console.log("Server is running on port 3000")
         })
     } catch (err) {
+        console.error("Failed to start server:", err)
         process.exit(1)
     }
 }
