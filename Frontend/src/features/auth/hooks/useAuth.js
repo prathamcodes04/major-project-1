@@ -1,6 +1,8 @@
 import { useContext } from "react";
 import { AuthContext } from "../context/auth.context";
 import {login, register, logout} from "../services/auth.api";
+import { useEffect } from "react";
+import { getMe } from "../services/auth.api";
 
 // custom hook
 export const useAuth = () => {
@@ -53,6 +55,19 @@ export const useAuth = () => {
             setLoading( false)
         }
     }
+
+    useEffect(() => {
+        const getAndSetUser = async() => {
+            // calls backend and get current users info from cookie
+            const data = await getMe()
+            // set current user
+            setUser(data.user)
+            setLoading(false)
+        }
+
+        getAndSetUser()
+        
+    }, [])
 
     // return user data, loading state and auth functions so other components can use them
     return {user, loading, handleLogin, handleRegister, handleLogout}
