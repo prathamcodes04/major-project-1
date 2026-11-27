@@ -1,3 +1,6 @@
+// This file is the authentication controller for the backend. It handles user registration, login, logout, and fetching the logged-in user.
+// It is exported and used by auth.routes.js
+
 const userModel = require("../models/user.model")
 const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
