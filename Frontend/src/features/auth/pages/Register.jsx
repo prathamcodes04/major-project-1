@@ -1,13 +1,31 @@
 import { useState } from 'react'
-import { Link } from 'react-router'
+import { Link, useNavigate } from 'react-router'
 import '../auth.form.scss'
+import { useAuth } from '../hooks/useAuth'
+
 
 const Register = () => {
-  const [submitted, setSubmitted] = useState(false)
 
-  const handleSubmit = (event) => {
+  const {loading, handleRegister} = useAuth()
+  const navigate = useNavigate()
+
+  // two way binding
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleSubmit = async(event) => {
     event.preventDefault()
-    setSubmitted(true)
+    await handleRegister({username, email, password})
+    navigate("/")
+  }
+
+  if(loading){
+    return (
+      <main>
+        <h1>Loading.......</h1>
+      </main>
+    )
   }
 
   return (
@@ -20,6 +38,7 @@ const Register = () => {
           <div className="register-form-group">
             <label htmlFor="register-username">Username</label>
             <input
+              onChange={(e) => {setUsername(e.target.value)}}
               type="text"
               id="register-username"
               name="username"
@@ -31,6 +50,7 @@ const Register = () => {
           <div className="register-form-group">
             <label htmlFor="register-email">Email</label>
             <input
+            onChange={(e) => {setEmail(e.target.value)}}
               type="email"
               id="register-email"
               name="email"
@@ -42,6 +62,7 @@ const Register = () => {
           <div className="register-form-group">
             <label htmlFor="register-password">Password</label>
             <input
+              onChange={(e) => {setPassword(e.target.value)}}
               type="password"
               id="register-password"
               name="password"
@@ -54,11 +75,6 @@ const Register = () => {
           <button className="register-submit" type="submit">
             Create account
           </button>
-          {submitted && (
-            <p className="register-status" role="status">
-              Test form submitted. Authentication is not connected.
-            </p>
-          )}
         </form>
 
         <p className="register-footer">

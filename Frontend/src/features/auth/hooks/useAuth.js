@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { AuthContext } from "../context/auth.context";
-import {login, register, logout, getMe} from "../services/auth.api";
+import {login, register, logout} from "../services/auth.api";
 
 // custom hook
 export const useAuth = () => {
@@ -8,8 +8,6 @@ export const useAuth = () => {
     const context = useContext(AuthContext);
     // extracting properties
     const {user, setUser, loading, setLoading} = context
-
-
 
     const handleLogin = async ({email, password}) => {
         // receive credentials
@@ -47,7 +45,7 @@ export const useAuth = () => {
         setLoading(true)
 
         try {
-           const data = await logout()
+           await logout()
            setUser(null) 
         } catch (err) {
             console.log(err)
