@@ -1,27 +1,44 @@
+require("dotenv").config();
 
-import "dotenv/config";
+const app = require("./app");
+const connectToDB = require("./src/config/database");
 
-import app from "./app.js";
-import connectToDB from "./src/config/database.js";
-import { resume, jobDescription, selfDescription } from "./src/services/temp.js";
-import generateInterviewReport from "./src/services/ai.services.js";
+const {
+    resume,
+    jobDescription,
+    selfDescription
+} = require("./src/services/temp");
+
+const generateInterviewReport = require("./src/services/ai.services");
 
 async function startServer() {
     try {
+        console.log("1. Connecting to DB...");
         await connectToDB();
+        console.log("2. DB connected");
 
         app.listen(3000, () => {
-            console.log("Server is running on port 3000");
+            console.log("3. Server is running on port 3000");
         });
 
-        await generateInterviewReport({
-            resume,
-            selfDescription,
-            jobDescription
-        });
+        // Test run: remove this block once you move report generation into a route
+        console.log("4. Calling Gemini (this can take 30-90 seconds)...");
+        console.time("Gemini response time");
+
+        generateInterviewReport({ resume, selfDescription, jobDescription })
+            .then((report) => {
+                console.timeEnd("Gemini response time");
+                console.log("5. Interview report generated successfully!");
+                console.log(JSON.stringify(report, null, 2));
+            })
+            .catch((err) => {
+                console.timeEnd("Gemini response time");
+                console.error("Gemini call failed:", err.message || err);
+            });
 
     } catch (err) {
         console.error("Server startup failed:", err);
+        process.exit(1);
     }
 }
 
