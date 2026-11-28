@@ -1,17 +1,28 @@
-require("dotenv").config() //access all variables from env file in all express server
-const app = require("./app")
-const connectToDB = require("./src/config/database")
+
+import "dotenv/config";
+
+import app from "./app.js";
+import connectToDB from "./src/config/database.js";
+import { resume, jobDescription, selfDescription } from "./src/services/temp.js";
+import generateInterviewReport from "./src/services/ai.services.js";
 
 async function startServer() {
     try {
-        await connectToDB()
+        await connectToDB();
+
         app.listen(3000, () => {
-            console.log("Server is running on port 3000")
-        })
+            console.log("Server is running on port 3000");
+        });
+
+        await generateInterviewReport({
+            resume,
+            selfDescription,
+            jobDescription
+        });
+
     } catch (err) {
-        console.error("Failed to start server:", err)
-        process.exit(1)
+        console.error("Server startup failed:", err);
     }
 }
 
-startServer()
+startServer();
